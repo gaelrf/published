@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standings</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Standings for {{ season }}</h1>
+
+    <h2>Driver Standings</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Driver</th>
+                <th>Points</th>
+                <th>Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in driver_standings %}
+            <tr>
+                <td>{{ driver.position }}</td>
+                <td>{{ driver.Driver.givenName }} {{ driver.Driver.familyName }}</td>
+                <td>{{ driver.points }}</td>
+                <td>{{ driver.wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Constructor Standings</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Constructor</th>
+                <th>Points</th>
+                <th>Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for constructor in constructor_standings %}
+            <tr>
+                <td>{{ constructor.position }}</td>
+                <td>{{ constructor.Constructor.name }}</td>
+                <td>{{ constructor.points }}</td>
+                <td>{{ constructor.wins }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

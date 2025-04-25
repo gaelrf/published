@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Circuits</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>F1 Circuits</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for circuit in circuits %}
+            <tr>
+                <td>{{ circuit.circuitName }}</td>
+                <td>{{ circuit.Location.locality }}</td>
+                <td>{{ circuit.Location.country }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
