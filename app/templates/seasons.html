@@ -9,13 +9,34 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>F1 Seasons</h1>
-    <ul>
-        {% for season in seasons %}
-        <li>
-            <a href="{{ season.season }}" target="_blank">Season {{ season.season }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+    <header>
+        <h1>F1 Seasons</h1>
+    </header>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Season</th>
+                    <th>Standings</th>
+                    <th>Races</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for season in seasons %}
+                <tr>
+                    <td>
+                        <P>Season {{ season.season }}</p>
+                    </td>
+                    <td>
+                        <a href="{{ season.season }}/standings" class="button">Standings</a>
+                    </td>
+                    <td>
+                        <a href="{{ season.season }}/races" class="button">Races</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

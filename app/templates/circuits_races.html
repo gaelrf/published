@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Races for {{ circuit_id }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Races for Circuit: {{ circuit_id }}</h1>
+
+    {% if races %}
+    <table>
+        <thead>
+            <tr>
+                <th>Race Name</th>
+                <th>Date</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for race in races %}
+            <tr>
+                <td>{{ race.raceName }}</td>
+                <td>{{ race.date }}</td>
+                <td>
+                    {% if race.date|date:"Y-m-d" < today|date:"Y-m-d" %}
+                    <a href="/race_results/{{ race.season }}/{{ race.round }}/">More details</a>
+                    {% else %}
+                    Not available yet
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No races found for this circuit.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 import requests
+from datetime import date, datetime
 
 def index(request):
     return render(request, "index.html")
@@ -59,3 +60,49 @@ def standings(request, season):
     }
 
     return render(request, 'standings.html', context)
+
+def races(request, season):
+    url = f"https://api.jolpi.ca/ergast/f1/{season}/races.json?limit=100&offset=0"  # API endpoint for season races
+    response = requests.get(url)  # Perform GET request
+
+    if response.status_code == 200:
+        data = response.json()  # Parse JSON response
+        races = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])
+
+        # Convert race dates to datetime.date objects
+        for race in races:
+            if 'date' in race:
+                race['date'] = datetime.strptime(race['date'], "%Y-%m-%d").date()
+
+        today = date.today()  # Get today's date
+        return render(request, "season_races.html", {"races": races, "season": season, "today": today})
+    else:
+        return render(request, "error.html", {"error": "Error fetching races for the season"})
+
+def circuit_races(request, circuit_id):
+    url = f"https://api.jolpi.ca/ergast/f1/circuits/{circuit_id}/races.json?limit=100&offset=0"  # API endpoint for circuit races
+    response = requests.get(url)  # Perform GET request
+    if response.status_code == 200:
+        data = response.json()  # Parse JSON response
+        races = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])
+
+        # Convert race dates to datetime.date objects
+        for race in races:
+            if 'date' in race:
+                race['date'] = datetime.strptime(race['date'], "%Y-%m-%d").date()
+
+        today = date.today()  # Get today's date
+        return render(request, "circuits_races.html", {"races": races, "circuit_id": circuit_id, "today": today})
+    else:
+        return render(request, "error.html", {"error": "Error fetching races for the circuit"})
+
+def race_results(request, season, round):
+    url = f"https://api.jolpi.ca/ergast/f1/{season}/{round}/results/"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        race_data = data.get("MRData", {}).get("RaceTable", {}).get("Races", [])[0]  # Extract race data
+        return render(request, "race_results.html", {"race": race_data})
+    else:
+        return render(request, "error.html", {"error": "Failed to fetch race results"})

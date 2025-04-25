@@ -22,7 +22,7 @@
         <tbody>
             {% for circuit in circuits %}
             <tr>
-                <td>{{ circuit.circuitName }}</td>
+                <td><a href="/circuits/{{ circuit.circuitId }}/races/">{{ circuit.circuitName }}</a></td>
                 <td>{{ circuit.Location.locality }}</td>
                 <td>{{ circuit.Location.country }}</td>
             </tr>
